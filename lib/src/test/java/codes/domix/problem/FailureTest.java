@@ -221,5 +221,12 @@ class FailureTest {
         var two = Failure.business("");
         assertEquals(one, two);
     }
+
+    @Test
+    void testI18nArgs() {
+        var f = Failure.business("m")
+            .withI18n("key");
+        assertEquals("key", f.i18nKey());
+    }
 }
 
