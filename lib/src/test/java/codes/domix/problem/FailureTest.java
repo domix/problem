@@ -58,6 +58,7 @@ class FailureTest {
     }
 
     @Test
+    @SuppressWarnings("rawtypes")
     void constructor_shouldDefaultNullCollectionsToEmptyAndCopyThem() {
         var originalArgs = new HashMap<String, Object>();
         originalArgs.put("a", 1);

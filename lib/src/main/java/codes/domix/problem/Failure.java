@@ -257,7 +257,7 @@ public record Failure<T>(
      * @param details a list of additional failure details to associate with the current failure instance
      * @return a new Failure object populated with the provided details and existing failure information
      */
-    public Failure<?> withDetails(List<? extends Failure<?>> details) {
+    public Failure<T> withDetails(List<? extends Failure<?>> details) {
         return new Failure<>(kind, message, reason, code, i18nKey, i18nArgs, details, data, cause);
     }
 
