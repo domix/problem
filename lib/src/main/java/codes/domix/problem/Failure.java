@@ -145,20 +145,6 @@ public record Failure<T>(
     }
 
     /**
-     * Creates a new {@code Failure} of kind {@code VALIDATION} with the specified message and associated data.
-     *
-     * @param <T>     the type of the data associated with the failure.
-     * @param message the failure message. Must not be {@code null}.
-     * @param data    the data associated with the failure. Can be {@code null}.
-     * @return a new {@code Failure} instance of type {@code VALIDATION} with the specified message and data.
-     * @throws NullPointerException if {@code message} is {@code null}.
-     */
-    public static <T> Failure<T> validation(String message, T data) {
-        return base(Kind.VALIDATION, message)
-            .withData(data);
-    }
-
-    /**
      * Creates a new {@code Failure} of kind {@code TECHNICAL} with the specified message.
      *
      * @param message the failure message. Must not be {@code null}.
@@ -167,20 +153,6 @@ public record Failure<T>(
      */
     public static Failure<Void> technical(String message) {
         return base(Kind.TECHNICAL, message);
-    }
-
-    /**
-     * Creates a new {@code Failure} of kind {@code TECHNICAL} with the specified message and associated data.
-     *
-     * @param <T>     the type of the data associated with the failure.
-     * @param message the failure message. Must not be {@code null}.
-     * @param data    the data associated with the failure. Can be {@code null}.
-     * @return a new {@code Failure} instance of type {@code TECHNICAL} with the specified message and data.
-     * @throws NullPointerException if {@code message} is {@code null}.
-     */
-    public static <T> Failure<T> technical(String message, T data) {
-        return base(Kind.TECHNICAL, message)
-            .withData(data);
     }
 
     /**
@@ -193,19 +165,6 @@ public record Failure<T>(
      */
     public static Failure<Void> businessCausedBy(String message, Throwable cause) {
         return base(Kind.BUSINESS, message)
-            .withCause(cause);
-    }
-
-    /**
-     * Creates a new {@code Failure} of kind {@code VALIDATION} with the specified message and cause.
-     *
-     * @param message the failure message. Must not be {@code null}.
-     * @param cause   the cause of the failure. Can be {@code null}.
-     * @return a new {@code Failure} instance of type {@code VALIDATION} with the specified message and cause.
-     * @throws NullPointerException if the {@code message} is {@code null}.
-     */
-    public static Failure<Void> validationCausedBy(String message, Throwable cause) {
-        return base(Kind.VALIDATION, message)
             .withCause(cause);
     }
 

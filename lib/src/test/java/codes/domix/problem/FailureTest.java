@@ -214,5 +214,12 @@ class FailureTest {
         assertFalse(Failure.business("m").hasCause());
         assertTrue(Failure.business("m").withCause(new RuntimeException()).hasCause());
     }
+
+    @Test
+    void validateEquals() {
+        var one = Failure.business("");
+        var two = Failure.business("");
+        assertEquals(one, two);
+    }
 }
 
