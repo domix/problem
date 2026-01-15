@@ -26,7 +26,7 @@ public record Failure<T>(
     String code,
     String i18nKey,
     Map<String, Object> i18nArgs,
-    List<Failure<?>> details,
+    List<? extends Failure<?>> details,
     T data,
     Throwable cause
 ) {
@@ -257,7 +257,7 @@ public record Failure<T>(
      * @param details a list of additional failure details to associate with the current failure instance
      * @return a new Failure object populated with the provided details and existing failure information
      */
-    public Failure<T> withDetails(List<Failure<?>> details) {
+    public Failure<?> withDetails(List<? extends Failure<?>> details) {
         return new Failure<>(kind, message, reason, code, i18nKey, i18nArgs, details, data, cause);
     }
 

@@ -90,7 +90,7 @@ class FailureTest {
 
         // And should be unmodifiable
         assertThrows(UnsupportedOperationException.class, () -> f.i18nArgs().put("x", 9));
-        assertThrows(UnsupportedOperationException.class, () -> f.details().add(Failure.business("nope")));
+        assertThrows(UnsupportedOperationException.class, () -> ((List) f.details()).add(Failure.business("nope")));
     }
 
     @Test
@@ -229,4 +229,3 @@ class FailureTest {
         assertEquals("key", f.i18nKey());
     }
 }
-
