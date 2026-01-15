@@ -1,4 +1,4 @@
-package codes.domix;
+package codes.domix.problem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
