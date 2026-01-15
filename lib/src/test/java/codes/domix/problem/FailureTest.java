@@ -1,4 +1,4 @@
-package codes.domix;
+package codes.domix.problem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -213,6 +213,20 @@ class FailureTest {
     void hasCause_shouldWork() {
         assertFalse(Failure.business("m").hasCause());
         assertTrue(Failure.business("m").withCause(new RuntimeException()).hasCause());
+    }
+
+    @Test
+    void validateEquals() {
+        var one = Failure.business("");
+        var two = Failure.business("");
+        assertEquals(one, two);
+    }
+
+    @Test
+    void testI18nArgs() {
+        var f = Failure.business("m")
+            .withI18n("key");
+        assertEquals("key", f.i18nKey());
     }
 }
 

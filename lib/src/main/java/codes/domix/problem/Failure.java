@@ -1,4 +1,4 @@
-package codes.domix;
+package codes.domix.problem;
 
 import java.util.List;
 import java.util.Map;
@@ -129,7 +129,8 @@ public record Failure<T>(
      * @throws NullPointerException if {@code message} is {@code null}.
      */
     public static <T> Failure<T> business(String message, T data) {
-        return base(Kind.BUSINESS, message, data);
+        return base(Kind.BUSINESS, message)
+            .withData(data);
     }
 
     /**
@@ -144,19 +145,6 @@ public record Failure<T>(
     }
 
     /**
-     * Creates a new {@code Failure} of kind {@code VALIDATION} with the specified message and associated data.
-     *
-     * @param <T>     the type of the data associated with the failure.
-     * @param message the failure message. Must not be {@code null}.
-     * @param data    the data associated with the failure. Can be {@code null}.
-     * @return a new {@code Failure} instance of type {@code VALIDATION} with the specified message and data.
-     * @throws NullPointerException if {@code message} is {@code null}.
-     */
-    public static <T> Failure<T> validation(String message, T data) {
-        return base(Kind.VALIDATION, message, data);
-    }
-
-    /**
      * Creates a new {@code Failure} of kind {@code TECHNICAL} with the specified message.
      *
      * @param message the failure message. Must not be {@code null}.
@@ -168,19 +156,6 @@ public record Failure<T>(
     }
 
     /**
-     * Creates a new {@code Failure} of kind {@code TECHNICAL} with the specified message and associated data.
-     *
-     * @param <T>     the type of the data associated with the failure.
-     * @param message the failure message. Must not be {@code null}.
-     * @param data    the data associated with the failure. Can be {@code null}.
-     * @return a new {@code Failure} instance of type {@code TECHNICAL} with the specified message and data.
-     * @throws NullPointerException if {@code message} is {@code null}.
-     */
-    public static <T> Failure<T> technical(String message, T data) {
-        return base(Kind.TECHNICAL, message, data);
-    }
-
-    /**
      * Creates a new {@code Failure} of kind {@code BUSINESS} with the specified message and cause.
      *
      * @param message the failure message. Must not be {@code null}.
@@ -189,19 +164,8 @@ public record Failure<T>(
      * @throws NullPointerException if the {@code message} is {@code null}.
      */
     public static Failure<Void> businessCausedBy(String message, Throwable cause) {
-        return base(Kind.BUSINESS, message).withCause(cause);
-    }
-
-    /**
-     * Creates a new {@code Failure} of kind {@code VALIDATION} with the specified message and cause.
-     *
-     * @param message the failure message. Must not be {@code null}.
-     * @param cause   the cause of the failure. Can be {@code null}.
-     * @return a new {@code Failure} instance of type {@code VALIDATION} with the specified message and cause.
-     * @throws NullPointerException if the {@code message} is {@code null}.
-     */
-    public static Failure<Void> validationCausedBy(String message, Throwable cause) {
-        return base(Kind.VALIDATION, message).withCause(cause);
+        return base(Kind.BUSINESS, message)
+            .withCause(cause);
     }
 
     /**
@@ -213,7 +177,8 @@ public record Failure<T>(
      * @throws NullPointerException if the {@code message} is {@code null}.
      */
     public static Failure<Void> technicalCausedBy(String message, Throwable cause) {
-        return base(Kind.TECHNICAL, message).withCause(cause);
+        return base(Kind.TECHNICAL, message)
+            .withCause(cause);
     }
 
     /**
@@ -234,31 +199,6 @@ public record Failure<T>(
             Map.of(),
             List.of(),
             null,
-            null
-        );
-    }
-
-    /**
-     * Creates a new {@code Failure} instance with the specified kind, message,
-     * and associated data, while leaving all other fields empty or defaulted.
-     *
-     * @param <T>     the type of the data associated with the failure.
-     * @param kind    the type of the failure. Must not be {@code null}.
-     * @param message the failure message. Must not be {@code null}.
-     * @param data    the data associated with the failure. Can be {@code null}.
-     * @return a new {@code Failure} instance with the specified kind, message, and data.
-     * @throws NullPointerException if {@code kind} or {@code message} is {@code null}.
-     */
-    private static <T> Failure<T> base(Kind kind, String message, T data) {
-        return new Failure<>(
-            kind,
-            message,
-            null,
-            null,
-            null,
-            Map.of(),
-            List.of(),
-            data,
             null
         );
     }
@@ -298,6 +238,17 @@ public record Failure<T>(
      */
     public Failure<T> withI18n(String i18nKey, Map<String, Object> args) {
         return new Failure<>(kind, message, reason, code, i18nKey, args, details, data, cause);
+    }
+
+    /**
+     * Associates an internationalization (i18n) key with the current Failure instance
+     * to support localized messaging or error representation.
+     *
+     * @param i18nKey the internationalization key to be associated with this Failure instance
+     * @return a new Failure instance with the specified i18n key
+     */
+    public Failure<T> withI18n(String i18nKey) {
+        return new Failure<>(kind, message, reason, code, i18nKey, Map.of(), details, data, cause);
     }
 
     /**
