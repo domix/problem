@@ -1,5 +1,8 @@
 plugins {
     id 'java-library'
+    id 'jacoco'
+    id "com.github.ben-manes.versions" version "0.53.0"
+    id "com.vanniktech.maven.publish" version "0.35.0"
 }
 
 repositories {
@@ -20,4 +23,48 @@ java {
 
 tasks.named('test') {
     useJUnitPlatform()
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        xml.required = true
+    }
+}
+
+mavenPublishing {
+    publishToMavenCentral(true, false)
+    signAllPublications()
+    coordinates("codes.domix", "problem", "${project.version}")
+
+    pom {
+        name = 'problem'
+        description = 'A lightweight Java library for modeling business and technical failures in a functional, immutable, and domain-driven way, preserving exception causes without leaking them outside the process.'
+        inceptionYear = "2026"
+        url = 'https://problem.domix.codes'
+        licenses {
+            license {
+                name = 'The Apache License, Version 2.0'
+                url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+        }
+        developers {
+            developer {
+                id = 'domix'
+                name = 'Domingo Suarez Torres'
+                email = 'domingo.suarez@gmail.com'
+            }
+        }
+        scm {
+            connection = 'scm:git:https://github.com/domix/problem'
+            developerConnection = 'scm:git:https://github.com/domix/problem'
+            url = 'https://github.com/domix/problem'
+        }
+    }
 }
