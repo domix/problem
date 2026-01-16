@@ -1,7 +1,6 @@
 package codes.domix.problem;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -25,7 +24,7 @@ public record Failure<T>(
     String reason,
     String code,
     String i18nKey,
-    Map<String, Object> i18nArgs,
+    List<Object> i18nArgs,
     List<? extends Failure<?>> details,
     T data,
     Throwable cause
@@ -99,7 +98,7 @@ public record Failure<T>(
     public Failure {
         kind = Objects.requireNonNull(kind, "kind must not be null");
         message = Objects.requireNonNull(message, "message must not be null");
-        i18nArgs = (i18nArgs == null) ? Map.of() : Map.copyOf(i18nArgs);
+        i18nArgs = (i18nArgs == null) ? List.of() : List.copyOf(i18nArgs);
         details = (details == null) ? List.of() : List.copyOf(details);
         // cause is allowed to be null
     }
@@ -196,7 +195,7 @@ public record Failure<T>(
             null,
             null,
             null,
-            Map.of(),
+            List.of(),
             List.of(),
             null,
             null
@@ -233,11 +232,12 @@ public record Failure<T>(
      * and its associated arguments.
      *
      * @param i18nKey the key representing the internationalized message
-     * @param args    a map of arguments to be used for localization placeholders in the message
+     * @param args    a list of arguments to be used for localization placeholders in the message
      * @return a new Failure instance with the provided i18n key and arguments
      */
-    public Failure<T> withI18n(String i18nKey, Map<String, Object> args) {
-        return new Failure<>(kind, message, reason, code, i18nKey, args, details, data, cause);
+    public Failure<T> withI18n(String i18nKey, List<?> args) {
+        List<Object> copied = (args == null) ? List.of() : args.stream().map(x -> (Object) x).toList();
+        return new Failure<>(kind, message, reason, code, i18nKey, copied, details, data, cause);
     }
 
     /**
@@ -248,7 +248,7 @@ public record Failure<T>(
      * @return a new Failure instance with the specified i18n key
      */
     public Failure<T> withI18n(String i18nKey) {
-        return new Failure<>(kind, message, reason, code, i18nKey, Map.of(), details, data, cause);
+        return new Failure<>(kind, message, reason, code, i18nKey, List.of(), details, data, cause);
     }
 
     /**
