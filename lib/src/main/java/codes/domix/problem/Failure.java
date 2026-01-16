@@ -13,7 +13,7 @@ import java.util.Objects;
  * @param reason   An optional string to provide additional reasoning or explanation for the failure.
  * @param code     An optional application-specific error code for the failure.
  * @param i18nKey  An optional internationalization key for the failure message.
- * @param i18nArgs A map of arguments to support internationalization message formatting. Defaults to an empty map if null.
+ * @param i18nArgs A list of arguments to support internationalization message formatting. Defaults to an empty list if null.
  * @param details  A list of subordinate or nested failure details. Defaults to an empty list if null.
  * @param data     Optional application-specific data related to the failure.
  * @param cause    An optional throwable that represents the root cause of the failure.
@@ -89,7 +89,7 @@ public record Failure<T>(
      * @param reason   the reason for the failure. Can be {@code null}.
      * @param code     an optional code representing the failure. Can be {@code null}.
      * @param i18nKey  an optional internationalization key for the failure. Can be {@code null}.
-     * @param i18nArgs optional arguments for internationalization. If {@code null}, defaults to an empty map.
+     * @param i18nArgs optional arguments for internationalization. If {@code null}, defaults to an empty list.
      * @param details  optional list of related failures. If {@code null}, defaults to an empty list.
      * @param data     optional data related to the failure. Can be {@code null}.
      * @param cause    the cause of the failure. Can be {@code null}.

@@ -94,7 +94,7 @@ class FailureTest {
 
         assertNotNull(f.i18nArgs());
         assertNotNull(f.details());
-        assertEquals(0, f.i18nArgs().size(), "i18nArgs should be an empty array");
+        assertEquals(0, f.i18nArgs().size(), "i18nArgs should be an empty list");
         assertTrue(f.details().isEmpty());
     }
 
@@ -105,7 +105,7 @@ class FailureTest {
         assertEquals("b", b.message());
         assertNull(b.code());
         assertTrue(b.details().isEmpty());
-        assertEquals(0, b.i18nArgs().size(), "i18nArgs should be an empty array");
+        assertEquals(0, b.i18nArgs().size(), "i18nArgs should be an empty list");
         assertNull(b.cause());
 
         var v = Failure.validation("v");
