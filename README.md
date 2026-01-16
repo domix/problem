@@ -173,7 +173,29 @@ It is a **problem modeling library**, not a transport or infrastructure abstract
 
 ---
 
-## License
 
-Apache 2 License
+## 📄 License
 
+This project is licensed under the Apache License. See the [LICENSE](./LICENSE) file for more details.
+
+## 🛠️ Usage
+
+
+### Installation
+
+This library is available on Maven Central. To use it, include the following dependency in your project's configuration file:
+
+#### Maven
+
+```xml
+<dependency>
+    <groupId>codes.domix</groupId>
+    <artifactId>problem</artifactId>
+    <version>0.0.4</version>
+</dependency>
+```
+
+#### Gradle
+
+```groovy
+implementation("codes.domix:problem:0.0.4")
