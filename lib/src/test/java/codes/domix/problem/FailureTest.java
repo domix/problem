@@ -1,18 +1,11 @@
 package codes.domix.problem;
 
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FailureTest {
 
@@ -60,37 +53,28 @@ class FailureTest {
     @Test
     @SuppressWarnings("rawtypes")
     void constructor_shouldDefaultNullCollectionsToEmptyAndCopyThem() {
-        var originalArgs = new HashMap<String, Object>();
-        originalArgs.put("a", 1);
+        var originalArgs = new ArrayList<>(List.of("1"));
 
         var originalDetails = new ArrayList<Failure<?>>();
         originalDetails.add(Failure.validation("v1"));
 
-        var f = new Failure<>(
-            Failure.Kind.VALIDATION,
-            "msg",
-            null,
-            null,
-            null,
-            originalArgs,
-            originalDetails,
-            null,
-            null
-        );
+        var f = Failure.validation("msg")
+            .withI18n("I18N_KEY", originalArgs)
+            .withDetails(originalDetails);
 
         // Should be non-null
         assertNotNull(f.i18nArgs());
         assertNotNull(f.details());
 
         // Should be copies (immutable snapshots)
-        originalArgs.put("b", 2);
+        originalArgs.add("2");
         originalDetails.add(Failure.validation("v2"));
 
         assertEquals(1, f.i18nArgs().size(), "i18nArgs should be an immutable copy");
         assertEquals(1, f.details().size(), "details should be an immutable copy");
 
         // And should be unmodifiable
-        assertThrows(UnsupportedOperationException.class, () -> f.i18nArgs().put("x", 9));
+        assertThrows(UnsupportedOperationException.class, () -> f.i18nArgs().add(9));
         assertThrows(UnsupportedOperationException.class, () -> ((List) f.details()).add(Failure.business("nope")));
     }
 
@@ -110,7 +94,7 @@ class FailureTest {
 
         assertNotNull(f.i18nArgs());
         assertNotNull(f.details());
-        assertTrue(f.i18nArgs().isEmpty());
+        assertEquals(0, f.i18nArgs().size(), "i18nArgs should be an empty list");
         assertTrue(f.details().isEmpty());
     }
 
@@ -121,7 +105,7 @@ class FailureTest {
         assertEquals("b", b.message());
         assertNull(b.code());
         assertTrue(b.details().isEmpty());
-        assertTrue(b.i18nArgs().isEmpty());
+        assertEquals(0, b.i18nArgs().size(), "i18nArgs should be an empty list");
         assertNull(b.cause());
 
         var v = Failure.validation("v");
@@ -153,7 +137,7 @@ class FailureTest {
         var f = base
             .withReason("r")
             .withCode("C1")
-            .withI18n("I18N_KEY", Map.of("name", "Domingo"))
+            .withI18n("I18N_KEY", List.of("Domingo"))
             .withDetails(List.of(Failure.validation("v1")))
             .withData(Map.of("k", "v"))
             .withCause(new RuntimeException("x"));
@@ -161,7 +145,7 @@ class FailureTest {
         // base unchanged
         assertNull(base.reason());
         assertNull(base.code());
-        assertTrue(base.i18nArgs().isEmpty());
+        assertEquals(0, base.i18nArgs().size());
         assertTrue(base.details().isEmpty());
         assertNull(base.data());
         assertNull(base.cause());
@@ -170,7 +154,7 @@ class FailureTest {
         assertEquals("r", f.reason());
         assertEquals("C1", f.code());
         assertEquals("I18N_KEY", f.i18nKey());
-        assertEquals("Domingo", f.i18nArgs().get("name"));
+        assertEquals("Domingo", f.i18nArgs().get(0));
         assertEquals(1, f.details().size());
         assertTrue(((Map<?, ?>) f.data()).containsKey("k"));
         assertNotNull(f.cause());
