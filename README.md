@@ -45,6 +45,7 @@ TECHNICAL
 AUTHORIZATION
 NOT_FOUND
 CONFLICT
+OTHERS
 ````
 
 The kind expresses *intent*, not transport concerns (HTTP, messaging, etc.).
